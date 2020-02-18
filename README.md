@@ -1,17 +1,39 @@
-# 0x00. AirBnB clone - The console
+# AirBnB clone - The Console
 
-- How to create a Python package
-- How to create a command interpreter in Python using the cmd module
-- What is Unit testing and how to implement it in a large project
-- How to serialize and deserialize a Class
-- How to write and read a JSON file
-- How to manage datetime
-- What is an UUID
-- What is \*args and how to use it
-- What is \*\*kwargs and how to use it
-- How to handle named arguments in a function
+![N|Solid](https://brandemia.org/sites/default/files/airbnb_portada.jpg)
+
+![N|Solid](https://lh4.googleusercontent.com/yUzaviDgzDIq4-ZHp9k0YU5fsz0nOdekNRt1qHgp7Qdlw5BNfe6bETEf5ZWd-Vkn_m57BPx7HcDrwFK41ptLnQLTNipWmTAtiQwZL_8s97Nkzn94xP7XVKb3RnV0fx8QEZoxlkVd)
+
+# Description
+
+We started this project, creating a command interpreter, where the main objective is to use the backend data through the console quickly and easily.
+
+- Usage Module CMD.
+- Usage Module DateTime.
+- Usage Module Uuid.
+- Serialize and Deserialize the Files JSON.
+- Usage args/Kwargs
+- Usage Packges Python
+
+## Install on PC
+
+    $ git clone https://github.com/camilooob/AirBnB_clone.git
+    $ cd AirBnB_clone
+    $ ./console.py
+
+### COMMANDS CMD
+
+| Command | Simple Usage             |
+| ------- | ------------------------ |
+| Quit    | Quit the Prompt          |
+| Help    | Display help the console |
+| Create  | Create New object        |
+| Show    | Show the object          |
+| All     | Display All objects      |
+| Update  | Update objects           |
+| Destroy | Destroy Objects          |
 
 # AUTHORS
 
-- Cristhiam Camilo
-- Camilo Araque
+Cristhiam Camilo Baquero Gomez <camilobaq@hotmail.com>
+Camilo Araque Caro <camiaraquecaro17@gmail.com>
