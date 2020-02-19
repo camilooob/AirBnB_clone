@@ -2,7 +2,7 @@
 from datetime import datetime
 from uuid import uuid4
 import models
-""" Import Modules for Class """
+""" Modules for Class """
 
 
 class BaseModel:
@@ -12,7 +12,7 @@ class BaseModel:
     updated_at = datetime.now()
 
     def __init__(self, *args, **kwargs):
-        """ Init Building Class """
+        """ Building Class """
         if (len(kwargs) is not 0):
             for key, value in kwargs.items():
                 if (key == 'id'):
@@ -30,7 +30,7 @@ class BaseModel:
             models.storage.new(self)
 
     def __str__(self):
-        """ Method String """
+        """ String Method """
         return ("[{self.__class__.__name__}] ({}) {}".format(self.id, self.__dict__, self=self))
 
     def save(self):
