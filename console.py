@@ -75,20 +75,29 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """ command show """
-        if line is None or line == "":
-            raise SyntaxError("** class name missing **")
-        else:
-            st = line.split(" ")
-            if st[0] not in self.classes:
-                raise NameError("** class doesn exist **")
-            if len(st) < 2:
-                raise IndexError("** instance id missing **")
-            key = "{}.{}".format(st[0], st[1])
-            obs = storage.all()
-            if key in obs:
-                print(obs[key])
+        try:
+            if line is None or line == "":
+                raise SyntaxError()
             else:
-                raise KeyError("** no instance found **")
+                st = line.split(" ")
+                if st[0] not in self.classes:
+                    raise NameError()
+                if len(st) < 2:
+                    raise IndexError()
+                key = "{}.{}".format(st[0], st[1])
+                obs = storage.all()
+                if key in obs:
+                    print(obs[key])
+                else:
+                    raise KeyError()
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
+        except IndexError:
+            print("** instance id missing **")
+        except KeyError:
+            print("** no instance found **")
 
     def do_destroy(self, line):
         """ Function that destroy the instance """
