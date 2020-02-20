@@ -1,8 +1,8 @@
 # /usr/bin/python3
+""" Modules for Class """
 from datetime import datetime
 from uuid import uuid4
 import models
-""" Modules for Class """
 
 
 class BaseModel:
@@ -31,7 +31,8 @@ class BaseModel:
 
     def __str__(self):
         """ String Method """
-        return ("[{self.__class__.__name__}] ({}) {}".format(self.id, self.__dict__, self=self))
+        return ("[{self.__class__.__name__}] ({}) {}"
+                .format(self.id, self.__dict__, self=self))
 
     def save(self):
         self.updated_at = datetime.now()
