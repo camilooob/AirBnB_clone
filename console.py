@@ -102,18 +102,31 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         """ Function that destroy the instance """
-        if line is None or line == "":
-            print("** class name missing **")
-        else:
-            st = line.split(" ")
-            if st[0] not in self.classes:
-                print("** class doesn't exist **")
+        try:
+            if line is None or line == "":
+                raise SyntaxError()
             else:
-                ob_sto = storage.all()
-                obs = "{}.{}" .format(st[0], st[1])
-                if obs in ob_sto:
-                    del(ob_sto[obs])
-                    storage.save()
+                st = line.split(" ")
+                if st[0] not in self.classes:
+                    raise NameError()
+                if len(st) < 2:
+                    raise IndexError()
+                else:
+                    ob_sto = storage.all()
+                    obs = "{}.{}" .format(st[0], st[1])
+                    if obs in ob_sto:
+                        del(ob_sto[obs])
+                        storage.save()
+                    else:
+                        raise KeyError()
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
+        except IndexError:
+            print("** instance id missing **")
+        except KeyError:
+            print("** no instance found **")
 
     def do_update(self, line):
         """ Updates instance """

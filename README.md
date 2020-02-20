@@ -36,6 +36,7 @@ We started this project, creating a command interpreter, where the main objectiv
 # How to Use Console
 
 1. Run program and show prompt with help command.
+   '''sh
    \$ ./console.py
    (hbnb) help
 
@@ -51,6 +52,7 @@ We started this project, creating a command interpreter, where the main objectiv
    (hbnb)
    (hbnb) quit
    PROMPT~>
+   '''
 
 # AUTHORS
 
