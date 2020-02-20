@@ -47,10 +47,10 @@ We started this project, creating a command interpreter, where the main objectiv
    (hbnb) help quit
    Quit command to exit the program
 
-(hbnb)
-(hbnb)
-(hbnb) quit
-PROMPT~>
+   (hbnb)
+   (hbnb)
+   (hbnb) quit
+   PROMPT~>
 
 # AUTHORS
 
