@@ -33,6 +33,25 @@ We started this project, creating a command interpreter, where the main objectiv
 | Update  | Update objects           |
 | Destroy | Destroy Objects          |
 
+# How to Use Console
+
+1. Run program and show prompt with help command.
+   \$ ./console.py
+   (hbnb) help
+
+   Documented commands (type help <topic>):
+
+   EOF help quit
+
+   (hbnb)
+   (hbnb) help quit
+   Quit command to exit the program
+
+(hbnb)
+(hbnb)
+(hbnb) quit
+PROMPT~>
+
 # AUTHORS
 
 Cristhiam Camilo Baquero Gomez <camilobaq@hotmail.com>
