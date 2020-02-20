@@ -18,30 +18,12 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     # Class Attribute to help precmd
-    l_com = ["show", "all", "create", "update", "destroy", "count"]
-
-    def precmd(self, line):
-        """
-        Run cmdloop adter input, return
-        string changed.
-        """
-        if "." in line and "(" in line and ")" in line:
-            n_l = line.split(".")
-            cmm = n_l[1].split("(")
-            arg = cmm[1].split(")")
-            gg = arg[0]
-            if "," in gg:
-                gg = gg.replace("\"", "").replace(" ", "")
-                gg = gg.split(",")
-                gg = "\"{} {} {}\"".format(gg[0], gg[1], gg[2])
-            if n_l[0] in storage.DC and cmm[0] in HBNBCommand.l_com:
-                line = "{} {} {}".format(cmm[0], n_l[0], gg[1:-1])
-        return line
+    classes = {"User", "BaseModel"}
 
     def do_count(self, line):
         """return how many instances are"""
         count = 0
-        if line in storage.DC:
+        if line:
             for key, value in storage.all().items():
                 if str(value.__class__.__name__) == line:
                     count += 1
@@ -62,35 +44,51 @@ class HBNBCommand(cmd.Cmd):
         if line is None or line == "":
             print("** class name missing **")
         else:
-            bolean = False
-            if line in storage.DC:
-                bolean = True
-
-            if bolean is False:
-                print("** class doesn't exist **")
-                return
-            if bolean is True:
+            if line:
                 new_obj_id = eval(line + "()")
                 new_obj_id.save()
                 print(new_obj_id.id)
+            else:
+                print("** class doesn't exist **")
+                return
+
+    def do_all(self, line):
+        """ Print all instances in string representation """
+        objects = []
+        if line == "":
+            print([str(value) for key, value in storage.all().items()])
+
+        else:
+            st = line.split(" ")
+            if st[0] not in self.classes:
+                print("** class doesn't exist **")
+            else:
+                for key, value in storage.all().items():
+                    clas = key.split(".")
+                    if clas[0] == st[0]:
+                        objects.append(str(value))
+                print(objects)
+
+    def emptyline(self):
+        """ Empty File """
+        pass
 
     def do_show(self, line):
         """ command show """
         if line is None or line == "":
-            print("** class name missing **")
+            raise SyntaxError("** class name missing **")
         else:
             st = line.split(" ")
-            length = len(st)
-            if st[0] not in storage.DC:
-                print("** class doesn't exist **")
-            if length < 2:
-                print("** instance id missing **")
+            if st[0] not in self.classes:
+                raise NameError("** class doesn exist **")
+            if len(st) < 2:
+                raise IndexError("** instance id missing **")
+            key = "{}.{}".format(st[0], st[1])
+            obs = storage.all()
+            if key in obs:
+                print(obs[key])
             else:
-                key = "{}.{}".format(st[0], st[1])
-                if key in storage.all():
-                    print(storage.all()[key])
-                else:
-                    print("** no instance found **")
+                raise KeyError("** no instance found **")
 
     def do_destroy(self, line):
         """ Function that destroy the instance """
@@ -98,80 +96,22 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             st = line.split(" ")
-            length = len(st)
-            if st[0] not in storage.DC:
+            if st[0] not in self.classes:
                 print("** class doesn't exist **")
-            if length < 2:
-                print("** instance id missing **")
             else:
-                key = "{}.{}".format(st[0], st[1])
-                if key in storage.all():
-                    del storage.all()[key]
+                ob_sto = storage.all()
+                obs = "{}.{}" .format(st[0], st[1])
+                if obs in ob_sto:
+                    del(ob_sto[obs])
                     storage.save()
-                else:
-                    print("** no instance found **")
 
-    def do_all(self, line):
-        """ Print all instances in string representation """
-        if line == "":
-            print([str(value) for key, value in storage.all().items()])
-
+    def default(self, line):
+        """ Dafault function """
+        split_line = line.split('.')
+        if len(split_line) > 1:
+            print("nico")
         else:
-            st = line.split(" ")
-            if st[0] not in storage.DC:
-                print("** class doesn't exist **")
-            else:
-                counter = 1
-                for key, value in storage.all().items():
-                    if st[0] in value.__class__.__name__:
-                        counter += 1
-
-                i = 1
-                for key, value in storage.all().items():
-                    if st[0] in value.__class__.__name__:
-                        i += 1
-                        if i == counter:
-                            print([str(value)])
-                        else:
-                            print([str(value)], end=", ")
-
-    def do_update(self, line):
-        """ Updates instance """
-        st = line.split(" ")
-        length = len(st)
-
-        if line is None or line == "":
-            print("** class name missing **")
-        elif length < 2:
-            print("** instance id missing **")
-        elif length == 2:
-            print("** attribute name missing **")
-        elif length == 3:
-            print("** value missing **")
-        elif st[0] not in storage.DC:
-            print("** class doesn't exist **")
-        else:
-            k = "{}.{}".format(st[0], st[1])
-            boolean = False
-            objs = FileStorage.all(self)
-
-            for key, value in storage.all().items():
-                if key == k:
-                    boolean = True
-                    new_value = objs.get(key)
-                    valor = st[3]
-
-                    if valor[-1:] == "\"":
-                        valor = valor[1:-1]
-
-                    setattr(value, st[2],
-                            type(getattr(value, st[2], "NO ATTR"))(valor))
-                    value.save()
-            if boolean is False:
-                print("** no instance found **")
-
-    def emptyline(self):
-        pass
+            cmd.Cmd.default(self, line)
 
 
 if __name__ == "__main__":

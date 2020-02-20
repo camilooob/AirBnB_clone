@@ -30,10 +30,11 @@ class FileStorage:
         """ Reload File Json """
         if os.path.isfile(self.__file_path):
             with open(self.__file_path, 'r') as file_json:
+                from models.base_model import BaseModel
+                from models.user import User
                 json_des = json.load(file_json)
             for key in json_des.keys():
                 # search "__class__": "BaseModel"
                 inst_dict = json_des[key]
                 inst_class = inst_dict['__class__']
-                if "BaseModel" in inst_dict['__class__']:
-                    self.__objects[key] = BaseModel(json_des[key])
+                self.__objects[key] = BaseModel(json_des[key])
