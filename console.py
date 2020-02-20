@@ -18,7 +18,8 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     # Class Attribute to help precmd
-    classes = {"User", "BaseModel"}
+    classes = {"User", "BaseModel", "Place",
+               "State", "Amenity", "City", "Review"}
 
     def do_count(self, line):
         """return how many instances are"""
@@ -114,11 +115,80 @@ class HBNBCommand(cmd.Cmd):
                     del(ob_sto[obs])
                     storage.save()
 
+    def do_update(self, line):
+        """ Updates instance """
+        try:
+            if not line:
+                raise SyntaxError()
+            line_split = line.split(" ")
+            if line_split[0] not in self.classes:
+                raise NameError()
+            if len(line_split) < 2:
+                raise IndexError()
+            dic = storage.all()
+            k = "{}.{}".format(line_split[0], line_split[1])
+            if k not in dic:
+                raise KeyError()
+            if len(line_split) < 3:
+                raise AttributeError()
+            if len(line_split) < 4:
+                raise ValueError()
+            objs = dic[k]
+            try:
+                objs.__dict__[line_split[2]] = eval(line_split[3])
+                objs.save()
+            except Exception:
+                objs.__dict__[line_split[2]] = line_split[3]
+                objs.save()
+        except ValueError:
+            print("** value missing **")
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
+        except IndexError:
+            print("** instance id missing **")
+        except KeyError:
+            print("** no instance found **")
+        except AttributeError:
+            print("** attribute name missing **")
+
+    def splinter(self, line):
+        sp = line
+        sp = sp.replace("\"", "")
+        sp = sp.replace("show(", "")
+        sp = sp.replace("destroy(", "")
+        sp = sp.replace("update(", "")
+        sp = sp.replace(")", "")
+        sp = sp.replace(",", "")
+        sp = sp.split()
+        args = ""
+        for i in range(len(sp)):
+            args += sp[i]
+            if i - 1 != range(len(sp)):
+                args += " "
+        return(args)
+
     def default(self, line):
         """ Dafault function """
         split_line = line.split('.')
         if len(split_line) > 1:
-            print("nico")
+            if split_line[1] == "count()":
+                self.do_count(split_line[0])
+            if split_line[1] == "all()":
+                self.do_all(split_line[0])
+            if split_line[1][:4] == "show":
+                args = self.splinter(split_line[1])
+                clas = split_line[0]
+                self.do_show(clas + " " + args)
+            if split_line[1][:7] == "destroy":
+                args = self.splinter(split_line[1])
+                clas = split_line[0]
+                self.do_destroy(clas + " " + args)
+            if split_line[1][:6] == "update":
+                args = self.splinter(split_line[1])
+                clas = split_line[0]
+                self.do_update(clas + " " + args)
         else:
             cmd.Cmd.default(self, line)
 
