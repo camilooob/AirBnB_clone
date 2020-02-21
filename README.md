@@ -55,6 +55,6 @@ We started this project, creating a command interpreter, where the main objectiv
    '''
 
 # AUTHORS
-Camilo B
+Camilo Ba
 Cristhiam Camilo Baquero Gomez <camilobaq@hotmail.com>
 Camilo Araque Caro <camiaraquecaro17@gmail.com>
