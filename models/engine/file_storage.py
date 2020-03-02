@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import json
 import os
-from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -28,12 +27,18 @@ class FileStorage:
 
     def reload(self):
         """ Reload File Json """
-        if os.path.isfile(self.__file_path):
-            with open(self.__file_path, 'r') as file_json:
+        try:    
+            with open(FileStorage.__file_path, 'r', encoding="utf-8") as file_json:
+                from models.base_model import BaseModel
+                from models.user import User
+                from models.place import Place
+                from models.state import State
+                from models.city import City
+                from models.amenity import Amenity
+                from models.review import Review
                 json_des = json.load(file_json)
-            for key in json_des.keys():
-                # search "__class__": "BaseModel"
-                inst_dict = json_des[key]
-                inst_class = inst_dict['__class__']
-                if "BaseModel" in inst_dict['__class__']:
-                    self.__objects[key] = BaseModel(json_des[key])
+            for key, value in json_des.items():
+                value = eval(value["__class__"])(**value)
+                FileStorage.__objects[key] = value
+        except OSError:
+            pass
